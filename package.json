@@ -1,7 +1,7 @@
 {
-  "name": "CaseCollections-admin",
+  "name": "CaseCollections",
   "version": "1.0.0",
-  "description": "CaseCollections 管理后台，使用 vue",
+  "description": "CaseCollections vue版",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://clown-doll@github.com/clown-doll/CaseCollections-admin.git"
+    "url": "git@github.com:clown-doll/CaseCollections-vue.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/clown-doll/CaseCollections-admin/issues"
+    "url": "https://github.com/clown-doll/CaseCollections-vue/issues"
   },
-  "homepage": "https://github.com/clown-doll/CaseCollections-admin#readme",
+  "homepage": "https://github.com/clown-doll/CaseCollections-vue#readme",
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
