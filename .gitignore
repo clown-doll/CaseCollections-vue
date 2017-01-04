@@ -5,7 +5,7 @@ npm-debug.log*
 # Runtime data
 *.pid
 .tmp
-.idea/*
+.idea
 
 ###############
 .DS_Store
