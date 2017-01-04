@@ -38,4 +38,24 @@ h1, h2, h3, h4, h5, h6 { font-weight: normal; font-size: 100% }
 .g-ft a{ color:#3e9ef6;}
 
 
+@media screen and (max-width:460px){
+    .logo{ -webkit-transform:scale(0.8);transform:scale(0.8);}
+    .intro h3{ font-size:20px}
+    .intro p{ font-size:14px}
+    .tool .btn-order{ -webkit-transform:scale(0.8)}
+    .h5-title{ font-size:18px}
+}
+@media screen and (max-width:360px){
+    .logo{ display:none}
+    .tool h2{ height:30px; line-height:30px; border:0}
+    .tool h2 span{ font-size:20px; border:0}
+    .tool,.nav,.nav a{ height:50px; line-height:50px;}
+    .header{ padding-top:50px}
+    .nav{ padding-left:10px}
+    .nav a{ padding:0 8px}
+    .tool-box{ height:50px}
+    .tool .btn-order{ -webkit-transform:scale(0.6); padding:0 16px; top:0;  -webkit-transform-origin: right center}
+}
+
+
 
