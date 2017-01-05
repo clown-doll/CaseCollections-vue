@@ -66,13 +66,16 @@
 						if (response.data) {
 							const result = response.data.data;
 
-							result.forEach((curr, index) => {
-								if (curr.category === 'ways') {
-									this.wapWaysArr.push(curr.name);
-								} else {
-									this.wapTypesArr.push(curr.name);
-								}
-							})
+							if (!this.wapWaysArr.length && !this.wapTypesArr.length) {
+								result.forEach((curr, index) => {
+									if (curr.category === 'ways') {
+										this.wapWaysArr.push(curr.name);
+									} else {
+										this.wapTypesArr.push(curr.name);
+									}
+								})
+							}
+
 						}
 					}).catch((response) => {
 						console.log(response);
@@ -85,12 +88,13 @@
 					.then((response) => {
 						if (response.data) {
 							const result = response.data.data;
-
-							result.forEach((curr, index) => {
-								if (curr.category === 'types') {
-									this.pcTypesArr.push(curr.name);
-								}
-							})
+							if (!this.pcTypesArr.length) {
+								result.forEach((curr, index) => {
+									if (curr.category === 'types') {
+										this.pcTypesArr.push(curr.name);
+									}
+								})
+							}
 						}
 					}).catch((response) => {
 						console.log(response);
