@@ -11,49 +11,28 @@
 	<dl class="kind">
 		<dt>平台：</dt>
 		<dd>
-			{{wapApiUrl}}
-			<a href="index.html" class="on">移动端</a>
-			<a href="pc.html">PC端</a>
+			<a v-on:click="getWapTags()" class="on">移动端</a>
+			<a v-on:click="getPcTags()">PC端</a>
 		</dd>
-		<dt>类别：</dt>
-		<dd>
-			<a href="javascript:;" class="on">全部</a>
-			<a href="javascript:;">原创</a>
-			<a href="javascript:;">APP下载注册</a>
-			<a href="javascript:;">发布会/邀请函</a>
-			<a href="javascript:;">公众号加粉推广</a>
-			<a href="javascript:;">招聘</a>
-			<a href="javascript:;">活动推广</a>
-			<a href="javascript:;">产品/品牌推广</a>
-			<a href="javascript:;">企业宣传</a>
-			<a href="javascript:;">信息收集</a>
-			<a href="javascript:;">其他</a>
-		</dd>
-		<dt>玩法：</dt>
-		<dd>
-			<a href="javascript:;" class="on">全部</a>
-			<a href="javascript:;">摇一摇</a>
-			<a href="javascript:;">重力感应</a>
-			<a href="javascript:;">红包</a>
-			<a href="javascript:;">测试</a>
-			<a href="javascript:;">问卷答题</a>
-			<a href="javascript:;">照片海报</a>
-			<a href="javascript:;">投票拉票集赞</a>
-			<a href="javascript:;">GPS</a>
-			<a href="javascript:;">信息图</a>
-			<a href="javascript:;">收集组装</a>
-			<a href="javascript:;">分享助力众筹</a>
-			<a href="javascript:;">抽奖</a>
-			<a href="javascript:;">弹幕</a>
-			<a href="javascript:;">小游戏</a>
-			<a href="javascript:;">视频互动</a>
-			<a href="javascript:;">语音 录音/识别</a>
-			<a href="javascript:;">擦一擦</a>
-			<a href="javascript:;">360全景</a>
-			<a href="javascript:;">双屏互动</a>
-			<a href="javascript:;">手机/微信等客户端模拟</a>
-			<a href="javascript:;">其他</a>
-		</dd>
+		<template v-if="platform === 'wap'">
+			<dt>类别：</dt>
+			<dd>
+				<a href="javascript:;" class="on">全部</a>
+				<a v-for="item in wapTypesArr" href="javascript:;">{{item}}</a>
+			</dd>
+			<dt>玩法：</dt>
+			<dd>
+				<a href="javascript:;" class="on">全部</a>
+				<a v-for="item in wapWaysArr" href="javascript:;">{{item}}</a>
+			</dd>
+		</template>
+		<template v-if="platform === 'pc'">
+			<dt>类别：</dt>
+			<dd>
+				<a href="javascript:;" class="on">全部</a>
+				<a v-for="item in pcTypesArr" href="javascript:;">{{item}}</a>
+			</dd>
+		</template>
 		<dt>排序：</dt>
 		<dd>
 			<a href="javascript:;" class="on">最新</a>
@@ -67,16 +46,53 @@
 	export default {
 		data(){
 			return {
-				wapTypesUrl: API_ROOT + 'tags/wap/'
+				wapUrl: API_ROOT + 'tags/wap/',
+				pcUrl: API_ROOT + 'tags/pc/',
+				wapTypesArr: [],
+				wapWaysArr: [],
+				pcTypesArr: [],
+				platform: ''
 			}
 		},
+		created: function () {
+			this.getWapTags();
+		},
 		methods: {
-			getWapTagTypes: function () {
-				this.$htpp.get(this.wapTypesUrl)
+			getWapTags: function () {
+				this.platform = 'wap';
+
+				this.$http.get(this.wapUrl)
 					.then((response) => {
-						this.$set('wapTypesData', response.data);
-					})
-					.catch((response) => {
+						if (response.data) {
+							const result = response.data.data;
+
+							result.forEach((curr, index) => {
+								if (curr.category === 'ways') {
+									this.wapWaysArr.push(curr.name);
+								} else {
+									this.wapTypesArr.push(curr.name);
+								}
+							})
+						}
+					}).catch((response) => {
+						console.log(response);
+					});
+			},
+			getPcTags: function () {
+				this.platform = 'pc';
+
+				this.$http.get(this.pcUrl)
+					.then((response) => {
+						if (response.data) {
+							const result = response.data.data;
+
+							result.forEach((curr, index) => {
+								if (curr.category === 'types') {
+									this.pcTypesArr.push(curr.name);
+								}
+							})
+						}
+					}).catch((response) => {
 						console.log(response);
 					});
 			}
