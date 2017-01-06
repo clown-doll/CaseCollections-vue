@@ -30,6 +30,7 @@
 <template>
 	<ul class="demo-list clearfix">
 		<li>
+			<p>Apart对我说： {{say}}</p>
 			<a href="sub.html" title="">
 				<div class="demo-image"><img src="http://o7miho7g9.bkt.clouddn.com/o_1b2cvlsb11pu2ajp15e0aktpl9f.png" alt="" title=""></div>
 				<div class="demo-title">网易考拉：我有洋气吗？不服来战！</div>
@@ -44,3 +45,28 @@
 		</li>
 	</ul>
 </template>
+
+<script>
+	import Bus from '../../Bus';
+
+	export default {
+		data(){
+			return {
+				say: 'hello'
+			}
+		},
+		components: {
+      		Bus
+  		},
+		created: function () {
+			var _self = this;
+			Bus.$on('say', function(data) {
+          		_self.say = data;
+          		console.log(this.say)
+      		});
+		},
+		methods: {
+
+		}
+	}
+</script>

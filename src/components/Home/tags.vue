@@ -17,20 +17,20 @@
 		<template v-if="platform === 'wap'">
 			<dt>类别：</dt>
 			<dd>
-				<a href="javascript:;" class="on">全部</a>
-				<a v-for="item in wapTypesArr" href="javascript:;">{{item}}</a>
+				<a href="javascript:;" v-on:click="getTagArticles()" class="on">全部</a>
+				<a v-for="item in wapTypesArr" href="javascript:;"  v-on:click="getTagArticles(item._id)">{{item.name}}</a>
 			</dd>
 			<dt>玩法：</dt>
 			<dd>
 				<a href="javascript:;" class="on">全部</a>
-				<a v-for="item in wapWaysArr" href="javascript:;">{{item}}</a>
+				<a v-for="item in wapWaysArr" href="javascript:;">{{item.name}}</a>
 			</dd>
 		</template>
 		<template v-if="platform === 'pc'">
 			<dt>类别：</dt>
 			<dd>
 				<a href="javascript:;" class="on">全部</a>
-				<a v-for="item in pcTypesArr" href="javascript:;">{{item}}</a>
+				<a v-for="item in pcTypesArr" href="javascript:;">{{item.name}}</a>
 			</dd>
 		</template>
 		<dt>排序：</dt>
@@ -38,22 +38,29 @@
 			<a href="javascript:;" class="on">最新</a>
 			<a href="javascript:;">人气</a>
 		</dd>
+		<dt>测试：</dt>
+		<dd><a v-on:click="test">点我测试</a></dd>
 	</dl>
 </template>
 <script>
 	import {API_ROOT} from '../../config';
+	import Bus from '../../Bus';
 
 	export default {
 		data(){
 			return {
-				wapUrl: API_ROOT + 'tags/wap/',
-				pcUrl: API_ROOT + 'tags/pc/',
+				wapUrl: API_ROOT + '/tags/wap/',
+				pcUrl: API_ROOT + '/tags/pc/',
+				articlesUrl: API_ROOT + '/articles/',
 				wapTypesArr: [],
 				wapWaysArr: [],
 				pcTypesArr: [],
 				platform: ''
 			}
 		},
+		components: {
+      		Bus
+  		},
 		created: function () {
 			this.getWapTags();
 		},
@@ -65,13 +72,13 @@
 					.then((response) => {
 						if (response.data) {
 							const result = response.data.data;
-
+							//console.log(result);
 							if (!this.wapWaysArr.length && !this.wapTypesArr.length) {
 								result.forEach((curr, index) => {
 									if (curr.category === 'ways') {
-										this.wapWaysArr.push(curr.name);
+										this.wapWaysArr.push(curr);
 									} else {
-										this.wapTypesArr.push(curr.name);
+										this.wapTypesArr.push(curr);
 									}
 								})
 							}
@@ -91,7 +98,7 @@
 							if (!this.pcTypesArr.length) {
 								result.forEach((curr, index) => {
 									if (curr.category === 'types') {
-										this.pcTypesArr.push(curr.name);
+										this.pcTypesArr.push(curr);
 									}
 								})
 							}
@@ -99,6 +106,21 @@
 					}).catch((response) => {
 						console.log(response);
 					});
+			},
+			getTagArticles: function (id) {
+				var finalUrl = !id ? this.articlesUrl : this.articlesUrl + '?tags=' + id;
+
+				this.$http.get(finalUrl)
+					.then((response) => {
+						if (response.data) {
+							console.log(response.data);
+						}
+					}).catch((response) => {
+						console.log(response);
+					});
+			},
+			test: function () {
+				Bus.$emit('say', 'test!');
 			}
 		}
 	}

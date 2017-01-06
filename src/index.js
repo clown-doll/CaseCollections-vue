@@ -1,3 +1,10 @@
+/*
+* @Author: Administrator
+* @Date:   2016-12-31 17:20:32
+* @Last Modified by:   Administrator
+* @Last Modified time: 2017-01-06 18:58:11
+*/
+
 import Vue from 'vue';
 import App from './components/App.vue';
 import VueResource from 'vue-resource'
