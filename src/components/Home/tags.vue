@@ -17,8 +17,8 @@
 		<template v-if="platform === 'wap'">
 			<dt>类别：</dt>
 			<dd>
-				<a href="javascript:;" v-on:click="getTagArticles()" class="on">全部</a>
-				<a v-for="item in wapTypesArr" href="javascript:;"  v-on:click="getTagArticles(item._id)">{{item.name}}</a>
+				<a href="javascript:;" v-on:click="getTagArticles('', -1)" :class="{on: active === -1}">全部</a>
+				<a v-for="(item, index) in wapTypesArr" href="javascript:;"  v-on:click="getTagArticles(item._id, index)" :class="{on: active === index}">{{item.name}}</a>
 			</dd>
 			<dt>玩法：</dt>
 			<dd>
@@ -38,8 +38,6 @@
 			<a href="javascript:;" class="on">最新</a>
 			<a href="javascript:;">人气</a>
 		</dd>
-		<dt>测试：</dt>
-		<dd><a v-on:click="test">点我测试</a></dd>
 	</dl>
 </template>
 <script>
@@ -55,7 +53,8 @@
 				wapTypesArr: [],
 				wapWaysArr: [],
 				pcTypesArr: [],
-				platform: ''
+				platform: '',
+				active: -1
 			}
 		},
 		components: {
@@ -63,6 +62,7 @@
   		},
 		created: function () {
 			this.getWapTags();
+			this.getTagArticles();
 		},
 		methods: {
 			getWapTags: function () {
@@ -107,20 +107,22 @@
 						console.log(response);
 					});
 			},
-			getTagArticles: function (id) {
+			getTagArticles: function (id, i) {
+				if (i || i === 0) {
+					this.active = i;
+				}
+
 				var finalUrl = !id ? this.articlesUrl : this.articlesUrl + '?tags=' + id;
 
 				this.$http.get(finalUrl)
 					.then((response) => {
 						if (response.data) {
-							console.log(response.data);
+							//console.log(response.data);
+							Bus.$emit('listData', response.data);
 						}
 					}).catch((response) => {
 						console.log(response);
 					});
-			},
-			test: function () {
-				Bus.$emit('say', 'test!');
 			}
 		}
 	}

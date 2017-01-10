@@ -10,6 +10,7 @@ import VueRouter from 'vue-router';
 
 // 组件
 import Home from './components/Home/index.vue';
+import ArticleDetail from './components/Articles/detail.vue';
 
 
 Vue.use(VueRouter);
@@ -18,13 +19,8 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', name: '/', component: Home }
-        /*{   path: '/', component: Home,
-            children: [
-                {path: 'pc', components: PC},
-                {path: 'wap', components: Wap}
-            ]
-        }*/
+        { path: '/', name: '/', component: Home },
+        { path: '/article/:id', component: ArticleDetail }
     ]
 });
 

@@ -28,22 +28,29 @@
 </style>
 
 <template>
-	<ul class="demo-list clearfix">
-		<li>
-			<p>Apart对我说： {{say}}</p>
-			<a href="sub.html" title="">
-				<div class="demo-image"><img src="http://o7miho7g9.bkt.clouddn.com/o_1b2cvlsb11pu2ajp15e0aktpl9f.png" alt="" title=""></div>
-				<div class="demo-title">网易考拉：我有洋气吗？不服来战！</div>
-			</a>
-			<dl class="demo-tag clearfix">
-				<dt>标签：</dt>
-				<dd>
-					<span>活动宣传</span>
-					<span>视频</span>
-				</dd>
-			</dl>
-		</li>
-	</ul>
+	<div>
+		<p v-if="pageList.length === 0">
+			暂无资源！
+		</p>
+		<ul v-else class="demo-list clearfix">
+			<li v-for = "item in pageList">
+				<router-link :to="'/article/' + item._id">
+					<div class="demo-image">
+						<img  v-if="item.cover" :src="item.cover" alt="" title="">
+						<img  v-else src="../../assets/images/default.jpg" alt="" title="">
+					</div>
+					<div class="demo-title">{{item.title}}</div>
+				</router-link>
+				<dl class="demo-tag clearfix">
+					<dt>标签：</dt>
+					<dd>
+						<span>活动宣传</span>
+						<span>视频</span>
+					</dd>
+				</dl>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <script>
@@ -52,7 +59,8 @@
 	export default {
 		data(){
 			return {
-				say: 'hello'
+				pageList: [],
+				totalCount: 0
 			}
 		},
 		components: {
@@ -60,9 +68,13 @@
   		},
 		created: function () {
 			var _self = this;
-			Bus.$on('say', function(data) {
-          		_self.say = data;
-          		console.log(this.say)
+			Bus.$on('listData', function(data) {
+				var pageList = data.data,
+					totalCount = data.count;
+				console.log(pageList);
+				_self.pageList = pageList;
+				_self.totalCount = totalCount;
+
       		});
 		},
 		methods: {
