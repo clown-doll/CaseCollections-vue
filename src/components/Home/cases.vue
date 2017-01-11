@@ -54,31 +54,9 @@
 </template>
 
 <script>
-	import Bus from '../../Bus';
+	// import Bus from '../../Bus';
 
 	export default {
-		data(){
-			return {
-				pageList: [],
-				totalCount: 0
-			}
-		},
-		components: {
-      		Bus
-  		},
-		created: function () {
-			var _self = this;
-			Bus.$on('listData', function(data) {
-				var pageList = data.data,
-					totalCount = data.count;
-				console.log(pageList);
-				_self.pageList = pageList;
-				_self.totalCount = totalCount;
-
-      		});
-		},
-		methods: {
-
-		}
+		props: ["pageList"]
 	}
 </script>
