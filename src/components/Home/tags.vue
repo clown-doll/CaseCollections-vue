@@ -17,26 +17,26 @@
 		<template v-if="platform === 'wap'">
 			<dt>类别：</dt>
 			<dd>
-				<a href="javascript:;" v-on:click="getTagArticles('', -1)" :class="{on: active === -1}">全部</a>
-				<a v-for="(item, index) in wapTypesArr" href="javascript:;"  v-on:click="getTagArticles(item._id, index)" :class="{on: active === index}">{{item.name}}</a>
+				<a href="javascript:;" :class="{on: !wapTypesConditions}" v-on:click="getTagArticles('', 'wapTypes', 'publish_time')">全部</a>
+				<a v-for="item in wapTypesArr" href="javascript:;"  v-on:click="getTagArticles(item._id, 'wapTypes', 'publish_time')" :class="{on: wapTypesConditions === item._id}">{{item.name}}</a>
 			</dd>
 			<dt>玩法：</dt>
 			<dd>
-				<a href="javascript:;" class="on">全部</a>
-				<a v-for="item in wapWaysArr" href="javascript:;">{{item.name}}</a>
+				<a href="javascript:;" :class="{on: !wapWaysConditions}" v-on:click="getTagArticles('', 'wapWays', 'publish_time')">全部</a>
+				<a v-for="item in wapWaysArr" href="javascript:;" v-on:click="getTagArticles(item._id, 'wapWays', 'publish_time')" :class="{on: wapWaysConditions === item._id}">{{item.name}}</a>
 			</dd>
 		</template>
 		<template v-if="platform === 'pc'">
 			<dt>类别：</dt>
 			<dd>
-				<a href="javascript:;" class="on">全部</a>
-				<a v-for="item in pcTypesArr" href="javascript:;">{{item.name}}</a>
+				<a href="javascript:;" :class="{on: !pcTypesConditions}" v-on:click="getTagArticles('', 'pcTypes', 'publish_time')">全部</a>
+				<a v-for="item in pcTypesArr" href="javascript:;" v-on:click="getTagArticles(item._id, 'pcTypes', 'publish_time')" :class="{on: pcTypesConditions === item._id}">{{item.name}}</a>
 			</dd>
 		</template>
 		<dt>排序：</dt>
 		<dd>
-			<a href="javascript:;" class="on">最新</a>
-			<a href="javascript:;">人气</a>
+			<a href="javascript:;" v-on:click="getTagArticles('', tags, 'publish_time')" :class="{on: sortName === 'publish_time'}">最新</a>
+			<a href="javascript:;" v-on:click="getTagArticles('', tags, 'visit_count')" :class="{on: sortName === 'visit_count'}">人气</a>
 		</dd>
 	</dl>
 </template>
@@ -54,7 +54,11 @@
 				wapWaysArr: [],
 				pcTypesArr: [],
 				platform: '',
-				active: -1
+				wapTypesConditions: '',
+				wapWaysConditions: '',
+				pcTypesConditions: '',
+				sortName: 'publish_time',
+				finalTags: []
 			}
 		},
 		components: {
@@ -62,7 +66,7 @@
   		},
 		created: function () {
 			this.getWapTags();
-			this.getTagArticles();
+			this.getTagArticles('', this.tags, 'publish_time');
 		},
 		methods: {
 			getWapTags: function () {
@@ -107,13 +111,37 @@
 						console.log(response);
 					});
 			},
-			getTagArticles: function (id, i) {
-				if (i || i === 0) {
-					this.active = i;
+			getTagArticles: function (id, category, sort) {
+
+				if (category === 'wapTypes') {
+					this.wapTypesConditions = id;
 				}
 
-				var finalUrl = !id ? this.articlesUrl : this.articlesUrl + '?tags=' + id;
+				if (category === 'wapWays') {
+					this.wapWaysConditions = id;
+				}
 
+				if (category === 'pcTypes') {
+					this.pcTypesConditions = id;
+				}
+
+				this.sortName = sort;
+
+				var finalUrl = '';
+
+				if (!this.finalTags) {
+					finalUrl = this.articlesUrl;
+				} else {
+					if (this.platform === 'pc') {
+						this.finalTags = [this.pcTypesConditions];
+					} else {
+						this.finalTags = [this.wapTypesConditions, this.wapWaysConditions];
+					}
+
+					finalUrl = `${this.articlesUrl}?tags=${this.finalTags}&sortName=${this.sortName}`;
+				}
+
+				console.log(finalUrl);
 				this.$http.get(finalUrl)
 					.then((response) => {
 						if (response.data) {

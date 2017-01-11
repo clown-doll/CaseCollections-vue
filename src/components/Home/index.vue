@@ -2,7 +2,7 @@
 	<div>
 		<Tags></Tags>
 		<Cases></Cases>
-		<Pages></Pages>
+		<!--<Pages></Pages>-->
 	</div>
 </template>
 <script>
