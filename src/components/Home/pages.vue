@@ -8,44 +8,86 @@
 </style>
 <template>
 	<ul class="pagination">
-
-		{{totalCount}}
-		{{apiUrl}}
-		<!--<li class="first disabled"><a href="javascript:;" class="page-link">首页</a></li>
-		<li class="prev disabled"><a href="javascript:;" class="page-link">上一页</a></li>
-		<li class="page active"><a href="javascript:;" class="page-link">1</a></li>
-		<li class="page"><a href="javascript:;" class="page-link">2</a></li>
-		<li class="page"><a href="javascript:;" class="page-link">3</a></li>
-		<li class="page"><a href="javascript:;" class="page-link">4</a></li>
-		<li class="page"><a href="javascript:;" class="page-link">5</a></li>
-		<li class="next"><a href="javascript:;" class="page-link">下一页</a></li>
-		<li class="last"><a href="javascript:;" class="page-link">尾页</a></li>-->
+		<li v-if="currentpage!==1">
+			<a v-on:click="currentpage--">上一页</a>
+		</li>
+		<li v-for="index in pagenums"  v-bind:class="{ 'active': currentpage == index}">
+			<a v-on:click="pageChange(index)">{{ index }}</a>
+		</li>
+		<li v-if="currentpage!==totlepage && totlepage !==0 ">
+			<a v-on:click="currentpage++">下一页</a>
+		</li>
 	</ul>
 </template>
 
 <script>
 	import Bus from '../../Bus';
-	import {API_ROOT} from '../../config';
+	import {API_ROOT, COUNT_PERPAGE} from '../../config';
 
 	export default {
-		data(){
-			return {
-				apiUrl: `${API_ROOT}/articles/?tags=,&sortName=publish_time`
+		props: {
+			totalCount: {
+				type: Number,
+				default: 1,
+				validator(value) {
+					return value >= 0
+				}
 			}
 		},
-		props: ['totalCount'],
+		data(){
+			return {
+				apiUrl: `${API_ROOT}/articles/?tags=,&sortName=publish_time`,
+				currentpage: 1,
+				totlepage: 0,
+				visiblepage: 5
+			}
+		},
 		components: {
 			Bus
 		},
+		computed: {
+			//计算属性：返回页码数组，这里会自动进行脏检查，不用$watch();
+			pagenums: function(){
+				this.totlepage = Math.ceil(this.totalCount/COUNT_PERPAGE);
+				//初始化前后页边界
+				var lowPage = 1;
+				var highPage = this.totlepage;
+				var pageArr = [];
+				if(this.totlepage > this.visiblepage){//总页数超过可见页数时，进一步处理；
+					var subVisiblePage = Math.ceil(this.visiblepage/2);
+					if(this.currentpage > subVisiblePage && this.currentpage < this.totlepage - subVisiblePage +1){//处理正常的分页
+						lowPage = this.currentpage - subVisiblePage;
+						highPage = this.currentpage + subVisiblePage -1;
+					}else if(this.currentpage <= subVisiblePage){//处理前几页的逻辑
+						lowPage = 1;
+						highPage = this.visiblepage;
+					}else{//处理后几页的逻辑
+						lowPage = this.totlepage - this.visiblepage + 1;
+						highPage = this.totlepage;
+					}
+				}
+				//确定了上下page边界后，要准备压入数组中了
+				while(lowPage <= highPage){
+					pageArr.push(lowPage);
+					lowPage ++;
+				}
+
+				return pageArr;
+			}
+		},
 		created: function () {
-			this.goPage();
+			/*var _self = this;
+			Bus.$on('url', function(url) {
+				_self.apiUrl = url;
+				console.log(_self.apiUrl);
+			});*/
 		},
 		methods: {
-			goPage: function () {
-				var _self = this;
-				Bus.$on('url', function(url) {
-					_self.apiUrl = url;
-				})
+			pageChange: function(page){
+				if (this.currentpage != page) {
+					this.currentpage = page;
+					this.$emit('page-change', this.currentpage);
+				}
 			}
 		}
 	}

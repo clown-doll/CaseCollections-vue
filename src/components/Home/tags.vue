@@ -67,7 +67,7 @@
   		},
 		created: function () {
 			this.getWapTags();
-			this.changeData('', this.tags, 'publish_time');
+			//this.changeData('', this.tags, 'publish_time');
 		},
 		methods: {
 			getWapTags: function () {
@@ -113,7 +113,6 @@
 					});
 			},
 			changeData: function (id, category, sort) {
-				console.log(121);
 				var url = this.$parent.getFinalUrl(id, category, sort);
 				Bus.$emit('url', url);
 				this.$parent.getArticleList(url);
