@@ -2,7 +2,7 @@
 	<div>
 		<loading v-show="showLoading" ></loading>
 
-		<Tags v-bind:category = 'category' v-bind:wapTypesConditions = 'wapTypesConditions' v-bind:wapWaysConditions = 'wapWaysConditions' v-bind:pcTypesConditions = 'pcTypesConditions' v-bind:sortName = 'sortName' v-on:change-data="tagListen"></Tags>
+		<Tags v-bind:category = 'category' v-bind:wapTypesConditions = 'wapTypesConditions' v-bind:wapWaysConditions = 'wapWaysConditions' v-bind:pcTypesConditions = 'pcTypesConditions' v-bind:sortName = 'sortName' v-on:change-data="tagListen" v-bind:platform.sync="platform"></Tags>
 		<Cases v-bind:pageList = 'pageList'></Cases>
 		<Pages v-bind:totalCount = 'totalCount' v-on:page-change="listen"></Pages>
 	</div>
@@ -28,7 +28,8 @@
 				pageList: [],
 				totalCount: 0,
 				curr: 1,
-				showLoading: false
+				showLoading: false,
+				platform: 'wap'
 			}
 		},
 		created: function () {
@@ -67,6 +68,7 @@
 					finalUrl = this.articlesUrl;
 				} else {
 					if (this.platform === 'pc') {
+						console.log(1);
 						this.finalTags = [this.pcTypesConditions];
 					} else {
 						this.finalTags = [this.wapTypesConditions, this.wapWaysConditions];

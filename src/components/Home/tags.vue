@@ -9,10 +9,10 @@
 
 <template>
 	<dl class="kind">
-		<dt>平台：</dt>
+		<dt>平台：{{platform}}</dt>
 		<dd>
-			<a v-on:click="getWapTags()" class="on">移动端</a>
-			<a v-on:click="getPcTags()">PC端</a>
+			<a v-on:click="getWapTags()" :class="{on: platform === 'wap'}">移动端</a>
+			<a v-on:click="getPcTags()" :class="{on: platform === 'pc'}">PC端</a>
 		</dd>
 		<template v-if="platform === 'wap'">
 			<dt>类别：</dt>
@@ -42,10 +42,10 @@
 </template>
 <script>
 	import {API_ROOT} from '../../config';
-	import Bus from '../../Bus';
+	// import Bus from '../../Bus';
 
 	export default {
-		props: ['wapTypesConditions', 'wapWaysConditions', 'pcTypesConditions', 'sortName', 'category'],
+		props: ['wapTypesConditions', 'wapWaysConditions', 'pcTypesConditions', 'sortName', 'category', 'plaftorm'],
 		data(){
 			return {
 				wapUrl: API_ROOT + '/tags/wap/',
@@ -53,13 +53,13 @@
 				wapTypesArr: [],
 				wapWaysArr: [],
 				pcTypesArr: [],
-				platform: '',
+				//platform: '',
 				finalTags: []
 			}
 		},
-		components: {
+		/*components: {
       		Bus
-  		},
+  		},*/
 		created: function () {
 			this.getWapTags();
 		},
@@ -87,6 +87,7 @@
 					});
 			},
 			getPcTags: function () {
+				console.log(1);
 				this.platform = 'pc';
 
 				this.$http.get(this.pcUrl)
@@ -107,6 +108,7 @@
 			},
 			changeData: function (id, category, sort) {
 				var url = this.$parent.getFinalUrl(id, category, sort);
+				console.log(url);
 				this.$parent.getArticleList(url);
 			}
 		}
