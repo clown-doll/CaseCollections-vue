@@ -35,8 +35,8 @@
 		</template>
 		<dt>排序：</dt>
 		<dd>
-			<a href="javascript:;" v-on:click="changeData('', tags, 'publish_time')" :class="{on: sortName === 'publish_time'}">最新</a>
-			<a href="javascript:;" v-on:click="changeData('', tags, 'visit_count')" :class="{on: sortName === 'visit_count'}">人气</a>
+			<a href="javascript:;" v-on:click="changeData('', category, 'publish_time')" :class="{on: sortName === 'publish_time'}">最新</a>
+			<a href="javascript:;" v-on:click="changeData('', category, 'visit_count')" :class="{on: sortName === 'visit_count'}">人气</a>
 		</dd>
 	</dl>
 </template>
@@ -45,20 +45,15 @@
 	import Bus from '../../Bus';
 
 	export default {
-		props: ['wapTypesConditions', 'wapWaysConditions', 'pcTypesConditions', 'sortName'],
+		props: ['wapTypesConditions', 'wapWaysConditions', 'pcTypesConditions', 'sortName', 'category'],
 		data(){
 			return {
 				wapUrl: API_ROOT + '/tags/wap/',
 				pcUrl: API_ROOT + '/tags/pc/',
-				//articlesUrl: API_ROOT + '/articles/',
 				wapTypesArr: [],
 				wapWaysArr: [],
 				pcTypesArr: [],
 				platform: '',
-				/*wapTypesConditions: '',
-				wapWaysConditions: '',
-				pcTypesConditions: '',
-				sortName: 'publish_time',*/
 				finalTags: []
 			}
 		},
@@ -67,7 +62,6 @@
   		},
 		created: function () {
 			this.getWapTags();
-			//this.changeData('', this.tags, 'publish_time');
 		},
 		methods: {
 			getWapTags: function () {
@@ -77,7 +71,6 @@
 					.then((response) => {
 						if (response.data) {
 							const result = response.data.data;
-							//console.log(result);
 							if (!this.wapWaysArr.length && !this.wapTypesArr.length) {
 								result.forEach((curr, index) => {
 									if (curr.category === 'ways') {
@@ -114,7 +107,6 @@
 			},
 			changeData: function (id, category, sort) {
 				var url = this.$parent.getFinalUrl(id, category, sort);
-				Bus.$emit('url', url);
 				this.$parent.getArticleList(url);
 			}
 		}

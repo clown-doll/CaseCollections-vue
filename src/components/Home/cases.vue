@@ -54,8 +54,6 @@
 </template>
 
 <script>
-	// import Bus from '../../Bus';
-
 	export default {
 		props: ["pageList"]
 	}

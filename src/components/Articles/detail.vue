@@ -22,12 +22,6 @@
 		<h3 class="h5-title">{{detailData.title}}</h3>
 		<div class="h5-content">
 			{{detailData.content}}
-			<!--<p><strong>亮点：</strong></p>
-			<ol>
-				<li>策划上，仿照了天猫双十一案例《尽情尽兴，尽在双11》一镜到底的形式， 展现从地球到太空的场景。在遨游太空的同时，有金立M6相伴。滑到最后，点击“为中国航天事业点赞”，分享给小伙伴。</li>
-				<li>设计上，手绘偏写实风格，太空场景，左上角的天数，会跟随场景变换而变换。</li>
-				<li>体验上，不得不说这种一镜到底的长镜头形式，非常有代入感。交互很少，甚至都没有购买链接，但是想买的人，肯定能记住“金立M6”这个名字。</li>
-			</ol>-->
 		</div>
 		<div v-if="isbelong === 'wap'" class="h5-ewm">
 			<p align="center" class="red">案例演示，请长按/扫描以下二维码 -></p>
@@ -59,8 +53,6 @@
 		},
 		methods: {
 			getDetail: function () {
-				console.log(this.apiUrl);
-
 				this.$http.get(this.apiUrl)
 					.then((response) => {
 						this.detailData = response.data.data;

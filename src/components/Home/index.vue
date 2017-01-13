@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Tags v-bind:wapTypesConditions = 'wapTypesConditions' v-bind:wapWaysConditions = 'wapWaysConditions' v-bind:pcTypesConditions = 'pcTypesConditions' v-bind:sortName = 'sortName'></Tags>
+		<Tags v-bind:category = 'category' v-bind:wapTypesConditions = 'wapTypesConditions' v-bind:wapWaysConditions = 'wapWaysConditions' v-bind:pcTypesConditions = 'pcTypesConditions' v-bind:sortName = 'sortName' v-on:change-data="tagListen"></Tags>
 		<Cases v-bind:pageList = 'pageList'></Cases>
 		<Pages v-bind:totalCount = 'totalCount' v-on:page-change="listen"></Pages>
 	</div>
@@ -19,9 +19,9 @@
 				wapTypesConditions: '',
 				wapWaysConditions: '',
 				pcTypesConditions: '',
+				category: '',
 				sortName: 'publish_time',
 				finalTags: [],
-				//listData: {},
 				pageList: [],
 				totalCount: 0,
 				curr: 1
@@ -37,16 +37,19 @@
 		},
 		methods: {
 			getFinalUrl: function (id, category, sort) {
-				if (category === 'wapTypes') {
-					this.wapTypesConditions = id;
-				}
 
-				if (category === 'wapWays') {
-					this.wapWaysConditions = id;
-				}
+				this.category = category;
 
-				if (category === 'pcTypes') {
-					this.pcTypesConditions = id;
+				switch (this.category) {
+					case 'wapTypes':
+						this.wapTypesConditions = id;
+						break;
+					case 'wapWays':
+						this.wapWaysConditions = id;
+						break;
+					case 'pcTypes':
+						this.pcTypesConditions = id;
+						break;
 				}
 
 				if (sort) {
@@ -67,12 +70,9 @@
 					finalUrl = `${this.articlesUrl}?tags=${this.finalTags}&sortName=${this.sortName}&currentPage=${this.curr}&itemsPerPage=${COUNT_PERPAGE}`;
 				}
 
-				console.log(finalUrl);
-
 				return finalUrl;
 			},
 			getArticleList: function (url) {
-				//var url = this.getFinalUrl();
 				this.$http.get(url)
 					.then((response) => {
 							if (response.data) {
@@ -86,6 +86,9 @@
 			listen: function (page) {
 				this.curr = page;
 				this.getArticleList(this.getFinalUrl());
+			},
+			tagListen: function (url) {
+				this.getArticleList(url);
 			}
 		}
 	}

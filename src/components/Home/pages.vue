@@ -9,13 +9,13 @@
 <template>
 	<ul class="pagination">
 		<li v-if="currentpage!==1">
-			<a v-on:click="currentpage--">上一页</a>
+			<a v-on:click="prevClick()">上一页</a>
 		</li>
 		<li v-for="index in pagenums"  v-bind:class="{ 'active': currentpage == index}">
 			<a v-on:click="pageChange(index)">{{ index }}</a>
 		</li>
 		<li v-if="currentpage!==totlepage && totlepage !==0 ">
-			<a v-on:click="currentpage++">下一页</a>
+			<a v-on:click="nextClick()">下一页</a>
 		</li>
 	</ul>
 </template>
@@ -49,6 +49,7 @@
 			//计算属性：返回页码数组，这里会自动进行脏检查，不用$watch();
 			pagenums: function(){
 				this.totlepage = Math.ceil(this.totalCount/COUNT_PERPAGE);
+
 				//初始化前后页边界
 				var lowPage = 1;
 				var highPage = this.totlepage;
@@ -75,18 +76,23 @@
 				return pageArr;
 			}
 		},
-		created: function () {
-			/*var _self = this;
-			Bus.$on('url', function(url) {
-				_self.apiUrl = url;
-				console.log(_self.apiUrl);
-			});*/
-		},
 		methods: {
 			pageChange: function(page){
 				if (this.currentpage != page) {
 					this.currentpage = page;
 					this.$emit('page-change', this.currentpage);
+				}
+			},
+			prevClick: function () {
+				if (this.currentpage > 0) {
+					this.currentpage--;
+					this.$emit('page-change', this.currentpage)
+				}
+			},
+			nextClick: function() {
+				if (this.currentpage < this.totlepage) {
+					this.currentpage++;
+					this.$emit('page-change', this.currentpage)
 				}
 			}
 		}
