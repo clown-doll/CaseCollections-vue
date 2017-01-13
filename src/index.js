@@ -14,8 +14,17 @@ import router from './routers';
 Vue.use(VueResource);
 
 // HTTP相关
-Vue.http.options.crossOrigin = true
-Vue.http.options.credentials = true
+Vue.http.options.crossOrigin = true;
+Vue.http.options.credentials = true;
+
+// 拦截器
+Vue.http.interceptors.push(function (request, next) {
+    this.showLoading = true;
+    next(function (response) {
+        this.showLoading = false;
+        return response;
+    });
+});
 
 import './assets/styles/public.css';
 

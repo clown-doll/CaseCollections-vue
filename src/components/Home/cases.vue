@@ -25,11 +25,12 @@
 		.demo-list li{ width:97%}
 	}
 
+	.demo-none{ text-align: center; font-size: 18px;}
 </style>
 
 <template>
-	<div>
-		<p v-if="pageList.length === 0">
+	<div class="">
+		<p v-if="pageList.length === 0" class="demo-none">
 			暂无资源！
 		</p>
 		<ul v-else class="demo-list clearfix">

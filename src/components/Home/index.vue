@@ -1,5 +1,7 @@
 <template>
 	<div>
+		<loading v-show="showLoading" ></loading>
+
 		<Tags v-bind:category = 'category' v-bind:wapTypesConditions = 'wapTypesConditions' v-bind:wapWaysConditions = 'wapWaysConditions' v-bind:pcTypesConditions = 'pcTypesConditions' v-bind:sortName = 'sortName' v-on:change-data="tagListen"></Tags>
 		<Cases v-bind:pageList = 'pageList'></Cases>
 		<Pages v-bind:totalCount = 'totalCount' v-on:page-change="listen"></Pages>
@@ -9,6 +11,7 @@
 	import Tags from './tags.vue';
 	import Cases from './cases.vue';
 	import Pages from './pages.vue';
+	import loading from '../loading.vue';
 
 	import {API_ROOT, COUNT_PERPAGE} from '../../config';
 
@@ -24,7 +27,8 @@
 				finalTags: [],
 				pageList: [],
 				totalCount: 0,
-				curr: 1
+				curr: 1,
+				showLoading: false
 			}
 		},
 		created: function () {
@@ -33,7 +37,8 @@
 		components: {
 			Tags,
 			Cases,
-			Pages
+			Pages,
+			loading
 		},
 		methods: {
 			getFinalUrl: function (id, category, sort) {
