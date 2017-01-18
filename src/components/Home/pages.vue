@@ -36,7 +36,7 @@
 		},
 		data(){
 			return {
-				apiUrl: `${API_ROOT}/articles/?tags=,&sortName=publish_time`,
+				//apiUrl: `${API_ROOT}/articles/?tags=,&sortName=publish_time`,
 				currentpage: 1,
 				totlepage: 0,
 				visiblepage: 5
