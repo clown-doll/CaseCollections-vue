@@ -7,4 +7,4 @@
 
 export const API_ROOT = (process.env.NODE_ENV === 'production') ? 'http://localhost:9000/front' : 'http://localhost:9000/front';
 
-export const COUNT_PERPAGE = 2;
+export const COUNT_PERPAGE = 8;

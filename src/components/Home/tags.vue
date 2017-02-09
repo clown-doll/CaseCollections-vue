@@ -1,42 +1,33 @@
-<style>
-	.kind{ padding:10px; font-size:14px; width:1200px; max-width:100%; margin:0 auto; -webkit-box-sizing:border-box;box-sizing:border-box; padding-left:50px}
-	.kind dt{ width:50px; padding-top:3px; float:left; margin-left:-50px; text-align:right; font-weight:bold}
-	.kind dd{ padding-bottom:10px}
-	.kind dd a{ padding:3px 10px;-webkit-transition:all 0.2s linear;transition:all 0.2s linear;border-radius:6px; display:inline-block; margin-bottom:2px }
-	.kind dd a:hover,.kind dd a.on{text-decoration:none;background:#3e9ef6; color:#fff;}
-	.kind dd a:hover{background:#0b7be1; }
-</style>
-
 <template>
 	<dl class="kind">
 		<dt>平台：{{platform}}</dt>
 		<dd>
-			<a v-on:click="getWapTags()" :class="{on: platform === 'wap'}">移动端</a>
-			<a v-on:click="getPcTags()" :class="{on: platform === 'pc'}">PC端</a>
+			<a @click="getWapTags()" :class="{on: platform === 'wap'}">移动端</a>
+			<a @click="getPcTags()" :class="{on: platform === 'pc'}">PC端</a>
 		</dd>
 		<template v-if="platform === 'wap'">
 			<dt>类别：</dt>
 			<dd>
-				<a href="javascript:;" :class="{on: !wapTypesConditions}" v-on:click="changeData('', 'wapTypes', 'publish_time')">全部</a>
-				<a v-for="item in wapTypesArr" href="javascript:;"  v-on:click="changeData(item._id, 'wapTypes', 'publish_time')" :class="{on: wapTypesConditions === item._id}">{{item.name}}</a>
+				<a href="javascript:;" :class="{on: !wapTypesConditions}" @click="changeData('', 'wapTypes', 'publish_time')">全部</a>
+				<a v-for="item in wapTypesArr" href="javascript:;"  @click="changeData(item._id, 'wapTypes', 'publish_time')" :class="{on: wapTypesConditions === item._id}">{{item.name}}</a>
 			</dd>
 			<dt>玩法：</dt>
 			<dd>
-				<a href="javascript:;" :class="{on: !wapWaysConditions}" v-on:click="changeData('', 'wapWays', 'publish_time')">全部</a>
-				<a v-for="item in wapWaysArr" href="javascript:;" v-on:click="changeData(item._id, 'wapWays', 'publish_time')" :class="{on: wapWaysConditions === item._id}">{{item.name}}</a>
+				<a href="javascript:;" :class="{on: !wapWaysConditions}" @click="changeData('', 'wapWays', 'publish_time')">全部</a>
+				<a v-for="item in wapWaysArr" href="javascript:;" @click="changeData(item._id, 'wapWays', 'publish_time')" :class="{on: wapWaysConditions === item._id}">{{item.name}}</a>
 			</dd>
 		</template>
 		<template v-if="platform === 'pc'">
 			<dt>类别：</dt>
 			<dd>
-				<a href="javascript:;" :class="{on: !pcTypesConditions}" v-on:click="changeData('', 'pcTypes', 'publish_time')">全部</a>
-				<a v-for="item in pcTypesArr" href="javascript:;" v-on:click="changeData(item._id, 'pcTypes', 'publish_time')" :class="{on: pcTypesConditions === item._id}">{{item.name}}</a>
+				<a href="javascript:;" :class="{on: !pcTypesConditions}" @click="changeData('', 'pcTypes', 'publish_time')">全部</a>
+				<a v-for="item in pcTypesArr" href="javascript:;" @click="changeData(item._id, 'pcTypes', 'publish_time')" :class="{on: pcTypesConditions === item._id}">{{item.name}}</a>
 			</dd>
 		</template>
 		<dt>排序：</dt>
 		<dd>
-			<a href="javascript:;" v-on:click="changeData('', category, 'publish_time')" :class="{on: sortName === 'publish_time'}">最新</a>
-			<a href="javascript:;" v-on:click="changeData('', category, 'visit_count')" :class="{on: sortName === 'visit_count'}">人气</a>
+			<a href="javascript:;" @click="changeData('', category, 'publish_time')" :class="{on: sortName === 'publish_time'}">最新</a>
+			<a href="javascript:;" @click="changeData('', category, 'visit_count')" :class="{on: sortName === 'visit_count'}">人气</a>
 		</dd>
 	</dl>
 </template>
@@ -60,11 +51,11 @@
 		/*components: {
       		Bus
   		},*/
-		created: function () {
-			this.getWapTags();
+        created () {
+            this.getWapTags();
 		},
 		methods: {
-			getWapTags: function () {
+			getWapTags () {
 				this.platform = 'wap';
 
 				this.$http.get(this.wapUrl)
@@ -86,8 +77,7 @@
 						console.log(response);
 					});
 			},
-			getPcTags: function () {
-				console.log(1);
+			getPcTags () {
 				this.platform = 'pc';
 
 				this.$http.get(this.pcUrl)
@@ -106,11 +96,19 @@
 						console.log(response);
 					});
 			},
-			changeData: function (id, category, sort) {
-				var url = this.$parent.getFinalUrl(id, category, sort);
-				console.log(url);
+			changeData (id, category, sort) {
+				let url = this.$parent.getFinalUrl(id, category, sort);
 				this.$parent.getArticleList(url);
 			}
 		}
 	}
 </script>
+
+<style>
+	.kind{ padding:10px; font-size:14px; width:1200px; max-width:100%; margin:0 auto; -webkit-box-sizing:border-box;box-sizing:border-box; padding-left:50px}
+	.kind dt{ width:50px; padding-top:3px; float:left; margin-left:-50px; text-align:right; font-weight:bold}
+	.kind dd{ padding-bottom:10px}
+	.kind dd a{ padding:3px 10px;-webkit-transition:all 0.2s linear;transition:all 0.2s linear;border-radius:6px; display:inline-block; margin-bottom:2px }
+	.kind dd a:hover,.kind dd a.on{text-decoration:none;background:#3e9ef6; color:#fff;}
+	.kind dd a:hover{background:#0b7be1; }
+</style>
