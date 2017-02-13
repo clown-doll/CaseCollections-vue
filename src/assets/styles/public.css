@@ -1,7 +1,7 @@
 @charset "utf-8";
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { padding: 0; margin: 0; }
 ol, ul, dl { list-style: none; }
-body {font: 12px/1.5 "Lucida Grande", Helvetica, Arial, Verdana, "Microsoft YaHei", sans-serif; color: #555; background:#f1f1f1; min-width:320px}
+body {font: 12px/1.5 "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; color: #555; background:#f1f1f1; min-width:320px}
 img { border: none }
 table { border-collapse: collapse; border-spacing: 0 }
 input, textarea, select { font: 12px "Microsoft YaHei", simsun, tahoma; outline: none }

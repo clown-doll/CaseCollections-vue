@@ -1,47 +1,49 @@
 <template>
 	<div class="main">
-		<h3 class="h5-title">{{detailData.title}}</h3>
-		<div class="h5-content">
-			{{detailData.content}}
+		<h3 class="h5-title">{{result.title}}</h3>
+		<div class="h5-content" v-html="result.content">
 		</div>
-		<div v-if="isbelong === 'wap'" class="h5-ewm">
+		<div v-if="result.platform === 'wap'" class="h5-ewm">
 			<p align="center" class="red">案例演示，请长按/扫描以下二维码 -></p>
 			<p align="center" class="red">识别图中二维码</p>
-			<p align="center"><img :src="'http://qr.liantu.com/api.php?text=' + detailData.case_url" id="ewm"></p>
+			<p align="center"><img :src="'http://qr.liantu.com/api.php?text=' + result.case_url" id="ewm"></p>
 		</div>
-		<div v-if="detailData.preview" class="h5-view">
+		<div v-if="result.preview" class="h5-view">
 			<p><strong>页面效果预览：</strong></p>
-			<img :src="detailData.preview" class="h5-thumb">
+			<img :src="result.preview" class="h5-thumb">
 		</div>
 		<div class="tool-bot">
-			<a :href="detailData.case_url">案例链接</a>
+			<a :href="result.case_url">案例链接</a>
 		</div>
 	</div>
 </template>
-<script>
-	import {API_ROOT} from '../../config';
 
-	export default {
-		data () {
-			return {
-				detailData: '',
-				isbelong: '',
-				apiUrl: API_ROOT + '/articles/' + this.$route.params.id
-			}
-		},
-		created () {
-			this.getDetail();
-		},
-		methods: {
-			getDetail () {
-				this.$http.get(this.apiUrl)
-					.then((response) => {
-						this.detailData = response.data.data;
-						this.isbelong = this.detailData.tags[0].platform;
-				})
-			}
-		}
-	}
+<script>
+    import * as api from '../api/index'
+
+    export default {
+        data () {
+            return {
+                aid: this.$route.params.id,
+                result: {}
+            }
+        },
+        mounted () {
+            this.$nextTick(function () {
+                this.getDetail(this.aid)
+            })
+        },
+        methods: {
+            getDetail (c) {
+                api.fetchCaseDetail(c).then((response) => {
+                    if (response.status === 200) {
+                        this.result = response.data.data
+                        console.log(this.result)
+                    }
+                })
+            }
+        }
+    }
 </script>
 
 <style>
@@ -60,6 +62,7 @@
 	.tool-bot a{ display:inline-block; margin:5px 5px 0 0 ; background:#3e9ef6; color:#fff; font-size:16px; padding:6px 10px; border-radius:6px}
 	.tool-bot a:hover,.tool-bot a:active{ text-decoration:none; background:#0b7be1}
 
-	/*.h5-show{ width:350px; height:634px; background:url(../images/phone.png) no-repeat; padding-top:46px}*/
+	.h5-show{ width:350px; height:634px; background:url(../../src/assets/images/phone.png) no-repeat; padding-top:46px}
 	.h5-show iframe{ width:350px; height:583px}
 </style>
+
