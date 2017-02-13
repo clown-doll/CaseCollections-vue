@@ -18,3 +18,6 @@ export const fetchCaseDetail = (id) => {
     return axios.get(`/articles/${id}`)
 }
 
+export const fetchTagDetail = (id) => {
+    return axios.get(`/tags/${id}`)
+}

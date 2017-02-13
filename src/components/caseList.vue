@@ -2,7 +2,7 @@
 	<div>
 		<div class="demo-none"  v-if="count === 0">空空如也~</div>
 		<ul class="demo-list clearfix">
-			<li v-for="item in result">
+			<li v-for="item in result" :key="item._id">
 				<router-link :to="'/article/' + item._id">
 					<div class="demo-image">
 						<img  v-if="item.cover" :src="item.cover" :alt="item.title" :title="item.title">
@@ -13,8 +13,7 @@
 				<dl class="demo-tag clearfix">
 					<dt>标签：</dt>
 					<dd>
-						<span>活动宣传</span>
-						<span>视频</span>
+						<span v-for="name in item.tagsName">{{name}}</span>
 					</dd>
 				</dl>
 			</li>
@@ -39,7 +38,8 @@
                 waysTag: [],
                 typesTag: [],
                 curr: 1,
-                sort: 'latest'
+                sort: 'latest',
+                temp: []
             }
         },
         components: {
@@ -80,18 +80,20 @@
             }
         },
         mounted () {
-            Bus.$on('platform', (data) => {
-                this.platform = data
-            })
-            Bus.$on('tag', (data) => {
-                this.tag = data
-            })
-            this.getCasesList(this.conditions)
-            Bus.$on('currentpage', (data) => {
-                this.curr = data
-            })
-            Bus.$on('sort', (data) => {
-                this.sort = data
+            this.$nextTick(function () {
+                Bus.$on('platform', (data) => {
+                    this.platform = data
+                })
+                Bus.$on('tag', (data) => {
+                    this.tag = data
+                })
+                this.getCasesList(this.conditions)
+                Bus.$on('currentpage', (data) => {
+                    this.curr = data
+                })
+                Bus.$on('sort', (data) => {
+                    this.sort = data
+                })
             })
         },
         methods: {
@@ -100,9 +102,26 @@
                     if (response.status === 200) {
                         this.count = response.data.count
                         this.result = response.data.data
+                        for (let item of this.result) {
+                            item.tagsName = []
+                            for (let value of item.tags) {
+                                let resultPromise = this.getTag(value)
+                                resultPromise.then((v) => {
+                                    item.tagsName.push(v.name)
+                                })
+                            }
+                        }
                         Bus.$emit('totalCount', this.count)
                     }
                 })
+            },
+            getTag (id) {
+                var resultPromise = api.fetchTagDetail(id).then((response) => {
+                    if (response.status === 200) {
+                        return response.data.data
+                    }
+                })
+                return resultPromise
             }
         }
     }
