@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const defaults = {
-    baseURL: (process.env.NODE_ENV === 'production') ? 'http://localhost:9000/front' : 'http://localhost:9000/front'
+    baseURL: (process.env.NODE_ENV === 'production') ? 'http://192.168.238.24:9000/front' : 'http://192.168.238.24:9000/front'
 }
 
 Object.assign(axios.defaults, defaults)
