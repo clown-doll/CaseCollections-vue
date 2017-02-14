@@ -13,7 +13,7 @@
 				<dl class="demo-tag clearfix">
 					<dt>标签：</dt>
 					<dd>
-						<span v-for="name in item.tagsName">{{name}}</span>
+						<span v-for="i in item.tags">{{i.name}}</span>
 					</dd>
 				</dl>
 			</li>
@@ -38,8 +38,7 @@
                 waysTag: [],
                 typesTag: [],
                 curr: 1,
-                sort: 'latest',
-                temp: []
+                sort: 'latest'
             }
         },
         components: {
@@ -87,13 +86,13 @@
                 Bus.$on('tag', (data) => {
                     this.tag = data
                 })
-                this.getCasesList(this.conditions)
                 Bus.$on('currentpage', (data) => {
                     this.curr = data
                 })
                 Bus.$on('sort', (data) => {
                     this.sort = data
                 })
+                this.getCasesList(this.conditions)
             })
         },
         methods: {
@@ -102,26 +101,8 @@
                     if (response.status === 200) {
                         this.count = response.data.count
                         this.result = response.data.data
-                        for (let item of this.result) {
-                            item.tagsName = []
-                            for (let value of item.tags) {
-                                let resultPromise = this.getTag(value)
-                                resultPromise.then((v) => {
-                                    item.tagsName.push(v.name)
-                                })
-                            }
-                        }
-                        Bus.$emit('totalCount', this.count)
                     }
                 })
-            },
-            getTag (id) {
-                var resultPromise = api.fetchTagDetail(id).then((response) => {
-                    if (response.status === 200) {
-                        return response.data.data
-                    }
-                })
-                return resultPromise
             }
         }
     }
