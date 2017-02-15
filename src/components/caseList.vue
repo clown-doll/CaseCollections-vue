@@ -101,6 +101,7 @@
                     if (response.status === 200) {
                         this.count = response.data.count
                         this.result = response.data.data
+                        Bus.$emit('totalCount', this.count)
                     }
                 })
             }

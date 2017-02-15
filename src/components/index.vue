@@ -12,11 +12,6 @@
     import Pages from './pages.vue'
 
     export default {
-        data () {
-            return {
-                test: '1'
-            }
-        },
         components: {
             Tags,
             List,

@@ -1,1 +1,1 @@
-export const COUNT_PERPAGE = 8;
+export const COUNT_PERPAGE = 8
