@@ -17,8 +17,8 @@
 		</template>
 		<dt>排序：</dt>
 		<dd>
-			<a href="javascript:;" :class="{'on': sort === 'latest'}" @click="changeSort('latest')">最新</a>
-			<a href="javascript:;" :class="{'on': sort === 'hot'}" @click="changeSort('hot')">人气</a>
+			<a href="javascript:;" :class="{'on': sort === 'publish_time'}" @click="changeSort('publish_time')">最新</a>
+			<a href="javascript:;" :class="{'on': sort === 'visit_count'}" @click="changeSort('visit_count')">人气</a>
 		</dd>
 	</dl>
 </template>
@@ -32,7 +32,7 @@
             return {
                 platform: 'wap',
                 category: ['types', 'ways'],
-                sort: 'latest'
+                sort: 'publish_time'
             }
         },
         components: {

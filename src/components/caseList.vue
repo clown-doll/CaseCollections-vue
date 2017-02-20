@@ -38,7 +38,7 @@
                 waysTag: [],
                 typesTag: [],
                 curr: 1,
-                sort: 'latest'
+                sort: 'publish_time'
             }
         },
         components: {
@@ -72,7 +72,9 @@
         },
         watch: {
             platform () {
+                this.curr = 1
                 this.tag = {}
+                Bus.$emit('currentpage', this.curr)
             },
             conditions () {
                 this.getCasesList(this.conditions)

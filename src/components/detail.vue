@@ -13,7 +13,7 @@
 			<img :src="result.preview" class="h5-thumb">
 		</div>
 		<div class="tool-bot">
-			<a :href="result.case_url">案例链接</a>
+			<a :href="result.case_url" target="_blank">案例链接</a>
 		</div>
 	</div>
 </template>
@@ -38,7 +38,6 @@
                 api.fetchCaseDetail(c).then((response) => {
                     if (response.status === 200) {
                         this.result = response.data.data
-                        console.log(this.result)
                     }
                 })
             }

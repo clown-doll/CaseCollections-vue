@@ -29,8 +29,13 @@
             Bus
         },
         mounted () {
-            Bus.$on('totalCount', (data) => {
-                this.totalCount = data
+            this.$nextTick(function () {
+                Bus.$on('totalCount', (data) => {
+                    this.totalCount = data
+                })
+                Bus.$on('currentpage', (data) => {
+                    this.currentpage = data
+                })
             })
         },
         computed: {
