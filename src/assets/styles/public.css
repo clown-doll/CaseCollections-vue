@@ -30,7 +30,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: normal; font-size: 100% }
 .intro h3{ color:#00ffea; font-size:26px; padding:5px 10px;  font-weight:bold}
 .intro p{  font-size:16px; padding:0 10px}
 .tool h2{ float:left; color:rgba(255,255,255,0.9); font-size:24px; height:50px; line-height:50px; margin-top:13px; margin-left:10px; border-left:2px solid #2b2b2b; overflow:hidden}
-.tool h2 span{ display:block; height:50px;border-left:1px solid #4e4d4d; padding-left:10px}
+.tool h2 a{ display:block; height:50px;border-left:1px solid #4e4d4d; padding-left:10px; color: #fff;}
+.tool h2 a:hover{text-decoration: none}
 
 /*footer*/
 .g-ft { padding: 30px 0 10px; border-top: 2px solid #dbdbdb;  }

@@ -28,9 +28,10 @@
     import Bus from '../Bus'
 
     export default {
+        props: ['platform'],
         data () {
             return {
-                platform: 'wap',
+                pf: this.platform,
                 category: ['types', 'ways'],
                 sort: 'publish_time'
             }
@@ -41,8 +42,8 @@
         },
         methods: {
             togglePlatform (p) {
-                this.platform = p
-                Bus.$emit('platform', this.platform)
+                this.pf = p
+                Bus.$emit('platform', this.pf)
             },
             changeSort (s) {
                 this.sort = s

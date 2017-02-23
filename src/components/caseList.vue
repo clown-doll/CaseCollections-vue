@@ -26,11 +26,12 @@
     import {COUNT_PERPAGE} from '../../config/page.config'
 
     export default {
+        props: ['platform'],
         data () {
             return {
                 result: null,
                 count: 0,
-                platform: 'wap',
+                pf: this.platform,
                 tag: {
                     id: '',
                     category: 'types'
@@ -83,7 +84,7 @@
         mounted () {
             this.$nextTick(function () {
                 Bus.$on('platform', (data) => {
-                    this.platform = data
+                    this.pf = data
                 })
                 Bus.$on('tag', (data) => {
                     this.tag = data

@@ -1,6 +1,9 @@
 <template>
-	<div class="main">
-		<h3 class="h5-title">{{result.title}}</h3>
+	<div class="main detail-main">
+		<div class="detail-top-bar">
+			<h3 class="h5-title">{{result.title}}</h3>
+			<router-link :to="{ name: 'home', params: { platform: result.platform }}" class="back">&laquo; 返回</router-link>
+		</div>
 		<div class="h5-content" v-html="result.content">
 		</div>
 		<div v-if="result.platform === 'wap'" class="h5-ewm">
@@ -48,8 +51,12 @@
 <style>
 	.sub .intro{ display:none}
 	.main{ width:1000px; max-width:100%; margin:0 auto; padding:10px 10px 80px; -webkit-box-sizing:border-box; box-sizing:border-box; font-size:14px}
+	.detail-main { margin-top: 70px;}
+	.detail-top-bar{ position: relative;}
+	.detail-top-bar .back{ position: absolute; right: 0; top: 16px;}
+	.detail-top-bar .back:hover{ color: #3e9ef6; text-decoration: none}
 	.main img{ display:block; width:100%; margin:0 auto}
-	.h5-title{ font-size:24px; border-bottom:1px solid #e7e7eb; margin-bottom:16px; padding:8px 0}
+	.h5-title{ font-size:24px; border-bottom:1px dashed #dfdfdf; /*margin-bottom:16px;*/ padding:8px 0}
 	.h5-content{ padding:20px 0 40px}
 	.h5-content p{ padding:5px 0}
 	.h5-content ol,.h5-content ul{ list-style:decimal; padding-left:1em}
