@@ -35,6 +35,7 @@
                 })
                 this.backHandle()
                 localStorage.clear()
+                document.title = `创意汇 - 99编辑部`
             })
         },
         methods: {

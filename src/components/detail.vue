@@ -41,6 +41,7 @@
                 api.fetchCaseDetail(c).then((response) => {
                     if (response.status === 200) {
                         this.result = response.data.data
+                        document.title = this.result.title
                     }
                 })
             }
