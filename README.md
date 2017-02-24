@@ -1,6 +1,6 @@
-# case-collections-vue
+# casecollections
 
-> Creative case display platform with vue
+> A Vue.js project
 
 ## Build Setup
 
