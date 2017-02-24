@@ -136,6 +136,7 @@
 	.demo-image img{ display:block; width:100%}
 	.demo-tag{ padding-left:40px; color:#999}
 	.demo-tag dt{ width:40px; float:left; margin-left:-40px; font-weight:bold}
+	.demo-tag dd{height:22px; line-height:22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 	.demo-tag dd span{ padding:0 2px}
 
 	@media screen and (max-width:1002px){
