@@ -34,6 +34,7 @@
                     this.platform = !data ? 'wap' : data
                 })
                 this.backHandle()
+                localStorage.clear()
             })
         },
         methods: {

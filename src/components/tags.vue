@@ -7,13 +7,13 @@
 		</dd>
 		<template v-if="platform === 'wap'">
 			<dt>类别：</dt>
-			<TagsList :platform="platform" :category="category[0]"></TagsList>
+			<TagsList :platform="platform" :category="category[0]" :currIndex="storageTypes"></TagsList>
 			<dt>玩法：</dt>
-			<TagsList :platform="platform" :category="category[1]"></TagsList>
+			<TagsList :platform="platform" :category="category[1]" :currIndex="storageWays"></TagsList>
 		</template>
 		<template v-if="platform === 'pc'">
 			<dt>类别：</dt>
-			<TagsList :platform="platform" :category="category[0]"></TagsList>
+			<TagsList :platform="platform" :category="category[0]" :currIndex="storageTypes"></TagsList>
 		</template>
 		<dt>排序：</dt>
 		<dd>
@@ -33,7 +33,9 @@
             return {
                 pf: this.platform,
                 category: ['types', 'ways'],
-                sort: 'publish_time'
+                sort: 'publish_time',
+                storageTypes: localStorage.getItem('types') ? JSON.parse(localStorage.getItem('types')).index : -1,
+                storageWays: localStorage.getItem('ways') ? JSON.parse(localStorage.getItem('ways')).index : -1
             }
         },
         components: {
@@ -44,6 +46,9 @@
             togglePlatform (p) {
                 this.pf = p
                 Bus.$emit('platform', this.pf)
+                localStorage.clear()
+                this.storageTypes = -1
+                this.storageWays = -1
             },
             changeSort (s) {
                 this.sort = s

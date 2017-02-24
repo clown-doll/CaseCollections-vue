@@ -59,7 +59,19 @@
                         this.typesTag = []
                         break
                 }
-                return [...this.typesTag, ...this.waysTag]
+
+                var typesResult = []
+                var waysResult = []
+
+                if (localStorage.getItem('types')) {
+                    typesResult = JSON.parse(localStorage.getItem('types')).id !== '' ? [JSON.parse(localStorage.getItem('types')).id] : this.typesTag
+                }
+
+                if (localStorage.getItem('ways')) {
+                    waysResult = JSON.parse(localStorage.getItem('ways')).id !== '' ? [JSON.parse(localStorage.getItem('ways')).id] : this.waysTag
+                }
+
+                return [...typesResult, ...waysResult]
             },
             conditions () {
                 return {

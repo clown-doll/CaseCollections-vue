@@ -1,9 +1,9 @@
 <template>
 	<dd>
-		<a href="javascript:;" :class="{'on': -1 === currIndex}" @click="change('', category, -1)">
+		<a href="javascript:;" :class="{'on': -1 === curr}" @click="change('', category, -1)">
 			全部
 		</a>
-		<a href="javascript:;" v-for="(item, index) in result" :class="{'on': index === currIndex}" @click="change(item._id, item.category, index)">
+		<a href="javascript:;" v-for="(item, index) in result" :class="{'on': index == curr}" @click="change(item._id, item.category, index)">
 			{{item.name}}
 		</a>
 	</dd>
@@ -14,11 +14,11 @@
     import Bus from '../Bus'
 
     export default {
-        props: ['platform', 'category'],
+        props: ['platform', 'category', 'currIndex'],
         data () {
             return {
                 result: null,
-                currIndex: -1
+                curr: this.currIndex
             }
         },
         components: {
@@ -36,11 +36,13 @@
                 })
             },
             change (id, c, i) {
-                this.currIndex = i
+                this.curr = i
                 let tagObj = {
                     id: id,
-                    category: c
+                    category: c,
+                    index: i
                 }
+                localStorage.setItem(this.category, JSON.stringify(tagObj))
                 Bus.$emit('tag', tagObj)
             }
         }
