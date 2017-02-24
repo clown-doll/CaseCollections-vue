@@ -89,8 +89,13 @@
                 this.tag = {}
                 Bus.$emit('currentpage', this.curr)
             },
-            conditions () {
-                this.getCasesList(this.conditions)
+            conditions (val) {
+                localStorage.setItem('conditions', JSON.stringify(val))
+                this.getCasesList(val)
+            },
+            tagArr () {
+                this.curr = 1
+                Bus.$emit('currentpage', this.curr)
             }
         },
         mounted () {
@@ -107,7 +112,10 @@
                 Bus.$on('sort', (data) => {
                     this.sort = data
                 })
-                this.getCasesList(this.conditions)
+                var c = localStorage.getItem('conditions') ? JSON.parse(localStorage.getItem('conditions')) : this.conditions
+                this.getCasesList(c)
+
+                this.curr = localStorage.getItem('conditions') ? JSON.parse(localStorage.getItem('conditions')).currentPage : this.curr
             })
         },
         methods: {

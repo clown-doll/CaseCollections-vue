@@ -19,7 +19,7 @@
     export default {
         data () {
             return {
-                currentpage: 1,
+                currentpage: localStorage.getItem('conditions') ? JSON.parse(localStorage.getItem('conditions')).currentPage : 1,
                 totalpage: 0,
                 visiblepage: 5,
                 totalCount: 0
