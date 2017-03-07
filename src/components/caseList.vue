@@ -120,6 +120,10 @@
         },
         methods: {
             getCasesList (c) {
+                if (c.platform !== this.platform) {
+                    c.platform = this.platform
+                }
+
                 api.fetchCases(c).then((response) => {
                     if (response.status === 200) {
                         this.count = response.data.count
